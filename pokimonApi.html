@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>demo api</title>
+    </head>
+    <style>
+      *{
+        background-color: black;
+        
+      }
+      h1{
+        color: white;
+      }
+      p{
+        color: white;
+      }
+      .searchBox input{
+        color: aliceblue;
+      }
+      .pokemonBox{
+        align-content: center;
+        margin-right:20px ;
+      }
+
+    
+    </style>
+    <body>
+        <div class="searchBox">
+          <input id="pokemonName" type="text" placeholder="pokemon Name">
+          <button id="search">🔍</button>
+          </div>
+          <div class="pokemonBox">
+          </div>
+    </body>
+    <script>
+      document.querySelector("#search").addEventListener("click",getPokemon); 
+      
+      function capitalizeFirstLetter(string){
+        return string.charAt(0).toUpperCase()+string.slice(1);
+      } 
+      function lowerCaseName(string){
+        return string.toLowerCase();
+      }
+      
+      function getPokemon(){
+        var name=document.querySelector("#pokemonName").value;
+        var pokemonName = lowerCaseName(name);
+        fetch(` https://pokeapi.co/api/v2/pokemon/${pokemonName}`).then((response) => response.json()).then((data) =>{
+          document.querySelector(".pokemonBox").innerHTML=` 
+          <div>
+              <img src="${data.sprites.other["official-artwork"].front_default}" alt="${capitalizeFirstLetter(data.name)}">
+            </div>
+            <div class="pokemonInfo">
+              <h1>${capitalizeFirstLetter(data.name)}</h1>
+              <p> Weight:${data.weight}</p>
+              
+            </div>
+          </
+
+          `
+        
+        
+        }).catch((err) => {
+          console.log("Pokemon not found",err)
+        });
+        
+      }
+      getPokemon();
+     
+    
+    </script>
+
+    
+
+</html>
